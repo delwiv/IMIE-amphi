@@ -29,4 +29,12 @@ public class SchoolFacade extends AbstractFacade<School> {
         super( School.class );
     }
     
+    public School getByName(String name) {
+        School school = ( School ) em.createNamedQuery( "School.findByName")
+                .setParameter( "name", name)
+                .setMaxResults( 1 )
+                .getSingleResult();
+        return school;
+    }
+    
 }

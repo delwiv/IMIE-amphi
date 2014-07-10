@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19 juin 2014, 09:36:27
+    Author     : delwiv
+*/
+body{
+    width:960px;
+    margin:auto;
+    padding-top: 60px;
+}
+
+.admin-link{
+    color: red;
+}
+
+.navbar-form * {
+    display:inline;
+}
