@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -33,32 +33,33 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author louis
  */
 @Entity
-@Table( name = "BOOKING" )
+@Table(name = "BOOKING")
 @XmlRootElement
-@NamedQueries( { 
-    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b" ),
-    @NamedQuery( name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id" ),
-    @NamedQuery( name = "Booking.findByStartDate", query = "SELECT b FROM Booking b WHERE b.startDate = :startDate" ),
-    @NamedQuery( name = "Booking.findByDuration", query = "SELECT b FROM Booking b WHERE b.duration = :duration" ),
-    @NamedQuery( name = "Booking.findByUserComment", query = "SELECT b FROM Booking b WHERE b.userComment = :userComment" ) } )
+@NamedQueries({
+    @NamedQuery(name = "Booking.findAll", query = "SELECT b FROM Booking b"),
+    @NamedQuery(name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id"),
+    @NamedQuery(name = "Booking.findByStartDate", query = "SELECT b FROM Booking b WHERE b.startDate = :startDate"),
+    @NamedQuery(name = "Booking.findByDuration", query = "SELECT b FROM Booking b WHERE b.duration = :duration"),
+    @NamedQuery(name = "Booking.findByUserComment", query = "SELECT b FROM Booking b WHERE b.userComment = :userComment") })
 public class Booking implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
-    @Basic( optional = false )
-    @Column( name = "ID" )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
     private Integer id;
-    @Column( name = "START_DATE" )
-    @Temporal( TemporalType.TIMESTAMP )
+    @Column(name = "START_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
-    @Column( name = "DURATION" )
+    @Column(name = "DURATION")
     private Integer duration;
-    @Size( max = 5000 )
-    @Column( name = "USER_COMMENT" )
+    @Size(max = 5000)
+    @Column(name = "USER_COMMENT")
     private String userComment;
-    @OneToMany( mappedBy = "idBooking" )
+    @OneToMany(mappedBy = "idBooking")
     private List<Checking> checkingList;
-    @JoinColumn( name = "ID_SCHOOL", referencedColumnName = "ID" )
+    @JoinColumn(name = "ID_SCHOOL", referencedColumnName = "ID")
     @ManyToOne
     private School idSchool;
 
@@ -89,8 +90,17 @@ public class Booking implements Serializable {
         return duration;
     }
 
-    public void setDuration( Integer duration ) {
-        this.duration = duration;
+    public void setDuration( Date duration ) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat( "HH:mm" );
+        cal.setTime( duration );
+        int hours = cal.get( Calendar.HOUR_OF_DAY );
+        int minutes = cal.get( Calendar.MINUTE );
+        this.duration = 0;
+        for ( int i = 0 ; i < hours ; i++ ) {
+            this.duration += 60;
+        }
+        this.duration += minutes;
     }
 
     public String getUserComment() {
@@ -142,15 +152,19 @@ public class Booking implements Serializable {
     public String toString() {
         return "model.Booking[ id=" + id + " ]";
     }
-    
-    public String getStrStartDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM HH:mm");
-        
+
+    public String getStrStartDate() {
+        if ( null == startDate ) {
+            startDate = new Date();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat( "dd MMM HH:mm" );
         return sdf.format( startDate );
-        
+
     }
-    
-    public String getStrDuration(){
+
+    public String getStrDuration() {
+        Calendar cal = Calendar.getInstance();
+        cal.set( 1970, 0, 1, 0, duration );
         int hours = 0, minutes = 0;
         if ( duration >= 60 ) {
             hours = duration / 60;
@@ -169,5 +183,5 @@ public class Booking implements Serializable {
         }
         return response;
     }
-    
+
 }
