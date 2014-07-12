@@ -27,26 +27,9 @@ public class SchoolController implements Serializable {
     private facade.SchoolFacade ejbFacade;
     private List<School> items = null;
     private School selected;
-    private boolean logged;
-    private String inputName;
-    private String inputPasswd;
+    private School admin;
 
     public SchoolController() {
-    }
-
-    public String login() {
-        try {
-            School school = ejbFacade.getByName( inputName );
-        } catch ( Exception ex ) {
-            System.err.println( ex.getMessage() );
-        }
-
-        return "loop";
-    }
-
-    public String logout() {
-
-        return "loop";
     }
 
     public School getSelected() {
@@ -94,8 +77,14 @@ public class SchoolController implements Serializable {
 
     public List<School> getItems() {
         if ( items == null ) {
-            items = getFacade().findAll();
+            items = ejbFacade.findAll();
         }
+//        if ( admin == null ) {
+//            admin = getFacade().getByName( "admin" );
+//        }
+//        if ( items.contains( admin ) ) {
+//            items.remove( admin );
+//        }
         return items;
     }
 
@@ -147,14 +136,6 @@ public class SchoolController implements Serializable {
         this.ejbFacade = ejbFacade;
     }
 
-    public boolean isLogged() {
-        return logged;
-    }
-
-    public void setLogged( boolean logged ) {
-        this.logged = logged;
-    }
-
     @FacesConverter( forClass = School.class )
     public static class SchoolControllerConverter implements Converter {
 
@@ -195,21 +176,4 @@ public class SchoolController implements Serializable {
         }
 
     }
-
-    public String getInputName() {
-        return inputName;
-    }
-
-    public void setInputName( String inputName ) {
-        this.inputName = inputName;
-    }
-
-    public String getInputPasswd() {
-        return inputPasswd;
-    }
-
-    public void setInputPasswd( String inputPasswd ) {
-        this.inputPasswd = inputPasswd;
-    }
-
 }

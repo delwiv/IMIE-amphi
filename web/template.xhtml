@@ -16,14 +16,13 @@
         <p:growl id="growl" life="3000" />
 
         <p:layout fullPage="true">
-            <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">
+            <p:layoutUnit position="north" size="65" header="#{bundletest.AppName}">
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                        <p:submenu label="#{bundle.Maintenance}">
-                            <p:menuitem value="Booking" outcome="/jsf//booking/List.xhtml" />
-                            <p:menuitem value="Checking" outcome="/jsf//checking/List.xhtml" />
-                            <p:menuitem value="School" outcome="/jsf//school/List.xhtml" />
+                        <p:menuitem value="#{bundletest.Home}" outcome="/index" icon="ui-icon-home"/>
+                        <p:submenu label="#{bundletest.Maintenance}">
+                            <p:menuitem value="Booking" outcome="jsftest/booking/List.xhtml" />
+                            <p:menuitem value="School" outcome="jsftest/school/List.xhtml" />
                         </p:submenu>
                     </p:menubar>
                 </h:form>

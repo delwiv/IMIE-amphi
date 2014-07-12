@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BookingViewDlg" widgetVar="BookingViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewBookingTitle}">
+            <h:form id="BookingViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bookingController.selected != null}">
+                        <h:outputText value="#{bundle.ViewBookingLabel_id}"/>
+                        <h:outputText value="#{bookingController.selected.id}" title="#{bundle.ViewBookingTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewBookingLabel_startDate}"/>
+                        <h:outputText value="#{bookingController.selected.startDate}" title="#{bundle.ViewBookingTitle_startDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewBookingLabel_duration}"/>
+                        <h:outputText value="#{bookingController.selected.duration}" title="#{bundle.ViewBookingTitle_duration}"/>
+                        <h:outputText value="#{bundle.ViewBookingLabel_userComment}"/>
+                        <h:outputText value="#{bookingController.selected.userComment}" title="#{bundle.ViewBookingTitle_userComment}"/>
+                        <h:outputText value="#{bundle.ViewBookingLabel_idSchool}"/>
+                        <h:outputText value="#{bookingController.selected.idSchool}" title="#{bundle.ViewBookingTitle_idSchool}"/>
+                        <h:outputText value="#{bundle.ViewBookingLabel_strStartDate}"/>
+                        <h:outputText value="#{bookingController.selected.strStartDate}" title="#{bundle.ViewBookingTitle_strStartDate}"/>
+                        <h:outputText value="#{bundle.ViewBookingLabel_strDuration}"/>
+                        <h:outputText value="#{bookingController.selected.strDuration}" title="#{bundle.ViewBookingTitle_strDuration}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="BookingViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

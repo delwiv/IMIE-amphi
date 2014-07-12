@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
@@ -35,13 +34,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table( name = "BOOKING" )
 @XmlRootElement
-@NamedQueries( { 
-    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b" ),
+@NamedQueries( {
+    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b WHERE b.startDate > :dateNow" ),
     @NamedQuery( name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id" ),
     @NamedQuery( name = "Booking.findByStartDate", query = "SELECT b FROM Booking b WHERE b.startDate = :startDate" ),
     @NamedQuery( name = "Booking.findByDuration", query = "SELECT b FROM Booking b WHERE b.duration = :duration" ),
-    @NamedQuery( name = "Booking.findByUserComment", query = "SELECT b FROM Booking b WHERE b.userComment = :userComment" ) } )
+    @NamedQuery( name = "Booking.findByUserComment", query = "SELECT b FROM Booking b WHERE b.userComment = :userComment" ),
+    @NamedQuery( name = "Booking.findNotChecked", query = "SELECT b FROM Booking b JOIN Checking c ON b.id <> c.id_booking" )
+//    @NamedQuery( name = "Booking.findNotChecked", query = "SELECT b FROM Booking b JOIN Checking c ON b.id <> c.id_booking" ),
+} )
 public class Booking implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -142,16 +145,20 @@ public class Booking implements Serializable {
     public String toString() {
         return "model.Booking[ id=" + id + " ]";
     }
-    
-    public String getStrStartDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM HH:mm");
-        
-        return sdf.format( startDate );
-        
+
+    public String getStrStartDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat( "dd MMM HH:mm" );
+        try {
+            return sdf.format( startDate );
+        } catch ( NullPointerException ex ) {
+            return sdf.format( new Date() );
+        }
+
     }
-    
-    public String getStrDuration(){
-        int hours = 0, minutes = 0;
+
+    public String getStrDuration() {
+        try {
+            int hours = 0, minutes = 0;
         if ( duration >= 60 ) {
             hours = duration / 60;
             minutes = duration % 60;
@@ -168,6 +175,10 @@ public class Booking implements Serializable {
             response += String.valueOf( minutes );
         }
         return response;
+        } catch ( Exception e ) {
+            return "";
+        }
+        
     }
-    
+
 }

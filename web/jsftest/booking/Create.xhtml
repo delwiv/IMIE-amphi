@@ -12,19 +12,24 @@
             <h:form id="BookingCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{bookingController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{bookingController.selected.id}" title="#{bundle.CreateBookingTitle_id}" required="true" requiredMessage="#{bundle.CreateBookingRequiredMessage_id}"/>
                         <p:outputLabel value="#{bundle.CreateBookingLabel_startDate}" for="startDate" />
-                        <p:calendar id="startDate" pattern="dd MMM HH:mm" value="#{bookingController.selected.startDate}" title="#{bundle.EditBookingTitle_startDate}" mode="inline" />
+                        <p:calendar id="startDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{bookingController.selected.startDate}" title="#{bundle.EditBookingTitle_startDate}"  showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateBookingLabel_duration}" for="duration" />
-                        <p:calendar id="duration" pattern="HH:mm" timeOnly="true" value="#{bookingController.selected.duration}" title="#{bundle.EditBookingTitle_duration}" mode="inline" />
+                        <p:inputText id="duration" value="#{bookingController.selected.duration}" title="#{bundle.CreateBookingTitle_duration}" />
                         <p:outputLabel value="#{bundle.CreateBookingLabel_userComment}" for="userComment" />
                         <p:inputText id="userComment" value="#{bookingController.selected.userComment}" title="#{bundle.CreateBookingTitle_userComment}" />
                         <p:outputLabel value="#{bundle.CreateBookingLabel_idSchool}" for="idSchool" />
                         <p:selectOneMenu id="idSchool" value="#{bookingController.selected.idSchool}" >
                             <f:selectItems value="#{schoolController.itemsAvailableSelectOne}"
                                            var="idSchoolItem"
-                                           itemValue="#{idSchoolItem}"
-                                           itemLabel="#{idSchoolItem.name}"/>
+                                           itemValue="#{idSchoolItem}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_strStartDate}" for="strStartDate" />
+                        <p:inputText id="strStartDate" value="#{bookingController.selected.strStartDate}" title="#{bundle.CreateBookingTitle_strStartDate}" />
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_strDuration}" for="strDuration" />
+                        <p:inputText id="strDuration" value="#{bookingController.selected.strDuration}" title="#{bundle.CreateBookingTitle_strDuration}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{bookingController.create}" value="#{bundle.Save}" update="display,:BookingListForm:datalist,:growl" oncomplete="handleSubmit(args,'BookingCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="BookingCreateDialog.hide()"/>

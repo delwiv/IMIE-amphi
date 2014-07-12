@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
@@ -28,11 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table( name = "CHECKING" )
 @XmlRootElement
-@NamedQueries( { 
+@NamedQueries( {
     @NamedQuery( name = "Checking.findAll", query = "SELECT c FROM Checking c" ),
     @NamedQuery( name = "Checking.findById", query = "SELECT c FROM Checking c WHERE c.id = :id" ),
     @NamedQuery( name = "Checking.findByUserComment", query = "SELECT c FROM Checking c WHERE c.userComment = :userComment" ) } )
 public class Checking implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -112,5 +112,5 @@ public class Checking implements Serializable {
     public String toString() {
         return "model.Checking[ id=" + id + " ]";
     }
-    
+
 }

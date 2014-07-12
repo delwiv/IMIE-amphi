@@ -7,16 +7,54 @@ and open the template in the editor.
     Created on : 19 juin 2014, 09:36:27
     Author     : delwiv
 */
-body{
+#container{
     width:960px;
     margin:auto;
     padding-top: 60px;
+/*    background-color: #dcdcdc;
+    border-style: ridge;
+    border-color: #d2d0d0;*/
+    padding:20px;
+    margin-top: 80px;
+}
+
+.ui-growl{
+    margin-top: 60px;
+}
+
+.display-group {
+    background-color: #f7f7f7;
+    border-style: groove;
+    border-color: #d2d0d0;
+    margin-bottom: 30px;
+    padding:20px;
+    padding-bottom: 60px;
 }
 
 .admin-link{
-    color: red;
+    margin-right: 15px;
+    padding:5px;
+    
+    
 }
 
 .navbar-form * {
     display:inline;
+}
+
+.entity-manager ui{
+    margin-bottom: 50px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    /*    
+        padding-bottom: 20px;
+        padding-top: 20px;
+        padding-left: 5px;
+        padding-right: 5px;
+    */
+}
+
+.form-getout{
+    
 }

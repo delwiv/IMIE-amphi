@@ -29,4 +29,12 @@ public class CheckingFacade extends AbstractFacade<Checking> {
         super( Checking.class );
     }
     
+    public Checking getByName(String name) {
+        Checking school = ( Checking ) em.createNamedQuery( "Checking.findByName")
+                .setParameter( "name", name)
+                .setMaxResults( 1 )
+                .getSingleResult();
+        return school;
+    }
+    
 }

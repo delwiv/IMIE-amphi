@@ -26,6 +26,7 @@ public class BookingController implements Serializable {
     @EJB
     private facade.BookingFacade ejbFacade;
     private List<Booking> items = null;
+    private List<Booking> uncheckedItems = null;
     private Booking selected;
 
     public BookingController() {
@@ -81,6 +82,12 @@ public class BookingController implements Serializable {
         return items;
     }
 
+    public List<Booking> getUncheckedItems() {
+        if ( uncheckedItems == null ) {
+            uncheckedItems = getFacade().getUncheckedBookings();
+        }
+        return uncheckedItems;
+    }
     private void persist( PersistAction persistAction, String successMessage ) {
         if ( selected != null ) {
             setEmbeddableKeys();

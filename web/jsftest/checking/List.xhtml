@@ -6,14 +6,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/admin.xhtml">
+    <ui:composition template="/template.xhtml">
 
 
         <ui:define name="title">
             <h:outputText value="#{bundle.ListCheckingTitle}"></h:outputText>
         </ui:define>
 
-        <ui:define name="body">
+        <ui:define name="checkings">
             <h:form id="CheckingListForm">
                 <p:panel header="#{bundle.ListCheckingTitle}">
                     <p:dataTable id="datalist" value="#{checkingController.items}" var="item"
@@ -33,24 +33,23 @@
                             </f:facet>
                             <h:outputText value="#{item.id}"/>
                         </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCheckingTitle_idBooking}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idBooking.strStartDate}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCheckingTitle_idSchool}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idSchool.name}"/>
-                        </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCheckingTitle_userComment}"/>
                             </f:facet>
                             <h:outputText value="#{item.userComment}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCheckingTitle_idBooking}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idBooking}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCheckingTitle_idSchool}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idSchool}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{checkingController.prepareCreate}" update=":CheckingCreateForm" oncomplete="PF('CheckingCreateDialog').show()"/>
