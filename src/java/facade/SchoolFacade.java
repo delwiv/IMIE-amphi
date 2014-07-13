@@ -17,7 +17,7 @@ import model.School;
  */
 @Stateless
 public class SchoolFacade extends AbstractFacade<School> {
-    @PersistenceContext( unitName = "EasyBookingPersistUnit" )
+    @PersistenceContext( unitName = "EasyBookingPU" )
     private EntityManager em;
 
     @Override

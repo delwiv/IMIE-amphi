@@ -17,7 +17,7 @@ import model.Checking;
  */
 @Stateless
 public class CheckingFacade extends AbstractFacade<Checking> {
-    @PersistenceContext( unitName = "EasyBookingPersistUnit" )
+    @PersistenceContext( unitName = "EasyBookingPU" )
     private EntityManager em;
 
     @Override
