@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : 19 juin 2014, 09:36:27
     Author     : delwiv
 */
+body {
+    background-color: #fffcfc;
+}
 #container{
     width:960px;
     margin:auto;

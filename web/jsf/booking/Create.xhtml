@@ -7,15 +7,28 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
+        <!--<p:growl for="dateCheck" id="message" life="12000"/>-->
 
         <p:dialog id="BookingCreateDlg" widgetVar="BookingCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateBookingTitle}">
-            <h:form id="BookingCreateForm">
+            <h:form id="BookingCreateForm"> 
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{bookingController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateBookingLabel_startDate}" for="startDate" />
-                        <p:calendar id="startDate" pattern="dd MMM HH:mm" value="#{bookingController.selected.startDate}" title="#{bundle.EditBookingTitle_startDate}" mode="inline" />
-                        <p:outputLabel value="#{bundle.CreateBookingLabel_duration}" for="duration" />
-                        <p:calendar id="duration" pattern="HH:mm" timeOnly="true" value="#{bookingController.selected.duration}" title="#{bundle.EditBookingTitle_duration}" mode="inline" />
+                        <h:panelGroup>
+                            <p:calendar id="startDate" mode="popup" showOn="button" pattern="dd-MM-yyyy HH:mm" minHour="#{parametersController.selected.bookingMinHour}" maxHour="#{parametersController.selected.bookingMaxHour}" value="#{bookingController.selected.startDate}" title="#{bundle.EditBookingTitle_startDate}" >
+                                <p:ajax event="dateSelect" listener="#{bookingController.handleDateSelect}" update=":growl"/>
+                            </p:calendar>
+                        </h:panelGroup>
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_duration}" for="sliderDuration" />
+                        <h:panelGroup>
+                            <h:inputHidden id="number" value="#{bookingController.selected.duration}" />
+                            <h:outputText value="Duration : " />
+                            <h:outputText id="output" value="#{bookingController.selected.strDuration}" />
+                            <p:slider id="sliderDuration" for="number" display="output" maxValue="#{parametersController.selected.bookingMaxDuration}" >
+                                <p:ajax event="slideEnd" listener="#{bookingController.onCreateSlideEnd}" update="output" />
+                            </p:slider>
+                        </h:panelGroup>
+
                         <p:outputLabel value="#{bundle.CreateBookingLabel_userComment}" for="userComment" />
                         <p:inputText id="userComment" value="#{bookingController.selected.userComment}" title="#{bundle.CreateBookingTitle_userComment}" />
                         <p:outputLabel value="#{bundle.CreateBookingLabel_idSchool}" for="idSchool" />

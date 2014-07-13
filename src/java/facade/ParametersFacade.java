@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package facade;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import model.Checking;
+import model.Parameters;
 
 /**
  *
  * @author louis
  */
 @Stateless
-public class CheckingFacade extends AbstractFacade<Checking> {
+public class ParametersFacade extends AbstractFacade<Parameters> {
+
     @PersistenceContext( unitName = "EasyBookingPersistUnit" )
     private EntityManager em;
 
@@ -25,16 +25,16 @@ public class CheckingFacade extends AbstractFacade<Checking> {
         return em;
     }
 
-    public CheckingFacade() {
-        super( Checking.class );
+    public ParametersFacade() {
+        super( Parameters.class );
     }
-    
-    public Checking getByName(String name) {
-        Checking school = ( Checking ) em.createNamedQuery( "Checking.findByName")
-                .setParameter( "name", name)
-                .setMaxResults( 1 )
-                .getSingleResult();
-        return school;
+
+    // the namedQuery orders by timestamp desc so the first row are current settings
+    public Parameters getCurrent() {
+        Parameters param = em.createNamedQuery( "Parameters.findAll", Parameters.class )
+                .getResultList()
+                .get( 0 );
+        return param;
     }
-    
+
 }

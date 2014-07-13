@@ -16,6 +16,10 @@
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleParams</base-name>
+            <var>bundleParams</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>

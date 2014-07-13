@@ -66,5 +66,60 @@
             <ui:include src="View.xhtml"/>
         </ui:define>
     </ui:composition>
+    
+    <f:view>
+
+
+        <h:form>
+            <h1><h:outputText value="List"/></h1>
+            <h:dataTable value="#{bookingController.items}" var="item">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="StartDate"/>
+                    </f:facet>
+                    <h:outputText value="#{item.startDate}">
+                        
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Duration"/>
+                    </f:facet>
+                    <h:outputText value="#{item.duration}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="UserComment"/>
+                    </f:facet>
+                    <h:outputText value="#{item.userComment}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="IdSchool"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSchool}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="StrStartDate"/>
+                    </f:facet>
+                    <h:outputText value="#{item.strStartDate}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="StrDuration"/>
+                    </f:facet>
+                    <h:outputText value="#{item.strDuration}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </f:view>
+
 
 </html>
