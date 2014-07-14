@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BookingEditDlg" widgetVar="BookingEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditBookingTitle}">
+            <h:form id="BookingEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bookingController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditBookingLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{bookingController.selected.id}" title="#{bundle.EditBookingTitle_id}" disabled="true" />
+                        <p:outputLabel value="#{bundle.EditBookingLabel_startDate}" for="startDate" />
+                        <p:calendar id="startDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{bookingController.selected.startDate}" title="#{bundle.EditBookingTitle_startDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditBookingLabel_duration}" for="duration" />
+                        <p:inputText id="duration" value="#{bookingController.selected.duration}" title="#{bundle.EditBookingTitle_duration}" />
+                        <p:outputLabel value="#{bundle.EditBookingLabel_userComment}" for="userComment" />
+                        <p:inputText id="userComment" value="#{bookingController.selected.userComment}" title="#{bundle.EditBookingTitle_userComment}" />
+                        <p:outputLabel value="#{bundle.EditBookingLabel_idSchool}" for="idSchool" />
+                        <p:selectOneMenu id="idSchool" value="#{bookingController.selected.idSchool}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{schoolController.itemsAvailableSelectOne}"
+                                           var="idSchoolItem"
+                                           itemValue="#{idSchoolItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bookingController.update}" value="#{bundle.Save}" update="display,:BookingListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BookingEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="BookingEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

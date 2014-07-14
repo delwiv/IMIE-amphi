@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.apache.commons.lang.time.DateUtils;
 
 /**
  *
@@ -159,26 +160,35 @@ public class Booking implements Serializable {
     public String getStrDuration() {
         try {
             int hours = 0, minutes = 0;
-        if ( duration >= 60 ) {
-            hours = duration / 60;
-            minutes = duration % 60;
-        } else {
-            minutes = duration;
-        }
+            if ( duration >= 60 ) {
+                hours = duration / 60;
+                minutes = duration % 60;
+            } else {
+                minutes = duration;
+            }
 
-        String response = "";
+            String response = "";
 
-        if ( hours > 0 ) {
-            response += String.valueOf( hours ) + "h";
-        }
-        if ( minutes > 0 ) {
-            response += String.valueOf( minutes );
-        }
-        return response;
+            if ( hours > 0 ) {
+                response += String.valueOf( hours ) + "h";
+            }
+            if ( minutes > 0 ) {
+                response += String.valueOf( minutes ) + "min.";
+            }
+            return response;
         } catch ( Exception e ) {
             return "";
         }
-        
+
+    }
+
+    public String getStrHours() {
+        DateUtils utils = new DateUtils();
+        SimpleDateFormat sdf = new SimpleDateFormat( "HH:mm" );
+        String response = this.idSchool.getName()
+                + " : " + sdf.format( startDate )
+                + " -> " + sdf.format( utils.addMinutes( startDate, duration ) );
+        return response;
     }
 
 }

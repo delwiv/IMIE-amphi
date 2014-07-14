@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.xhtml">EasyBooking!</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#agenda">Agenda</a></li>
+                    <li><a href="#book">Book</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <h:form styleClass="navbar-form" >
+                        <c:choose>
+                            <c:when test="#{loginManager.logged}">
+                                <c:if test="#{loginManager.admin}">
+                                    <li class="admin-link"><a href="./admin.xhtml">Admin</a></li>
+                                    <p:commandButton ajax="false" action="#{loginManager.logout}" value="Logout"/>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <li>
+                                    <p:outputLabel id="labelName" for="inputName" value="Login"/>
+                                    <p:inputText id="inputName" label="labelName" value="#{loginManager.inputName}" />
+                                </li>
+                                <li>
+                                    <p:outputLabel id="labelPasswd" for="inputPasswd" value="Password"/>
+                                    <p:password id="inputPasswd" label="labelPasswd" value="#{loginManager.inputPasswd}"/>
+                                </li>
+                                <li>
+                                    <p:commandButton ajax="false" action="#{loginManager.login}" value="Login"/>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+
+                    </h:form>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ui:composition>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <link href="resources/css/jsfcrud.css" rel="stylesheet"/>
+        <script src="resources/js/jsfcrud.js"></script>
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="css/styles.css" rel="stylesheet"/>
+        <script src="js/bootstrap.min.js"></script>
+        <!--<script src="js/jquery-2.1.1.js"></script>-->
+        <title>EasyBooking!</title>
+    </h:head>
+
+    <h:body>
+        <ui:include src="html/menu.xhtml"/>
+        <div id="container">
+            <p:growl id="growl" life="3000" />
+            <c:choose>
+                <c:when test="#{not loginManager.admin}">
+                    <h:form>
+                        <p:outputLabel for="btnGetback" value="You should not be there without being logged as admin, please login or get out!"/><br />
+                        <p:commandButton id="btnGetback" value="Get out!" action="index"/>
+                    </h:form>
+                </c:when>
+                <c:otherwise>
+                    <h1>Admin Area</h1>
+                    <h3>Be carefull of what you do here</h3>
+                    <br />
+                    <br />
+
+                    <h2>Schools</h2>
+                    <div class="entity-manager">
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="entity-manager">
+                        <h2>Bookings</h2>
+                        <ui:include src="jsf/booking/List.xhtml"/>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="entity-manager">
+                        <h2>Checkings</h2>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </h:body>
+</html>
