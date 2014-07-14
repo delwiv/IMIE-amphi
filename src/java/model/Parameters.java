@@ -63,6 +63,56 @@ public class Parameters implements Serializable {
 
     public Parameters() {
     }
+    
+    public String getStrMinDuration() {
+        try {
+            int hours = 0, minutes = 0;
+            if ( bookingMinDuration >= 60 ) {
+                hours = bookingMinDuration / 60;
+                minutes = bookingMinDuration % 60;
+            } else {
+                minutes = bookingMinDuration;
+            }
+
+            String response = "";
+
+            if ( hours > 0 ) {
+                response += String.valueOf( hours ) + "h";
+            }
+            if ( minutes > 0 ) {
+                response += String.valueOf( minutes ) + "min.";
+            }
+            return response;
+        } catch ( Exception e ) {
+            return "";
+        }
+
+    }
+    
+    public String getStrMaxDuration() {
+        try {
+            int hours = 0, minutes = 0;
+            if ( bookingMaxDuration >= 60 ) {
+                hours = bookingMaxDuration / 60;
+                minutes = bookingMaxDuration % 60;
+            } else {
+                minutes = bookingMaxDuration;
+            }
+
+            String response = "";
+
+            if ( hours > 0 ) {
+                response += String.valueOf( hours ) + "h";
+            }
+            if ( minutes > 0 ) {
+                response += String.valueOf( minutes ) + "min.";
+            }
+            return response;
+        } catch ( Exception e ) {
+            return "";
+        }
+
+    }
 
     public Parameters( Integer id ) {
         this.id = id;

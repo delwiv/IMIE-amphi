@@ -37,9 +37,6 @@ public class BookingFacade extends AbstractFacade<Booking> {
         try {
             List<Booking> bookings = em.createNamedQuery( "Booking.findNotChecked", Booking.class )
                     .getResultList();
-            for ( Booking b : bookings ) {
-                System.out.println( b.toString() );
-            }
             return bookings;
         } catch ( Exception ex ) {
             return new ArrayList<Booking>();
@@ -60,11 +57,16 @@ public class BookingFacade extends AbstractFacade<Booking> {
         List<Booking> bookings = em.createNamedQuery( "Booking.findAll", Booking.class )
                 .setParameter( "dateNow", new Date() )
                 .getResultList();
-        for ( Booking b : bookings ) {
-            System.out.println( b.toString() );
-        }
         return bookings;
 
     }
 
+    public List<Booking> findBySchool( int idSchool ) {
+        List<Booking> bookings = em.createNamedQuery( "Booking.findByIdSchool", Booking.class )
+                .setParameter( "idSchool", idSchool )
+                .getResultList();
+
+        return bookings;
+
+    }
 }

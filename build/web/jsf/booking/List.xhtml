@@ -12,7 +12,7 @@
             <p:panel header="#{bundle.ListBookingTitle}">
                 <p:dataTable id="datalist" value="#{bookingController.items}" var="item"
                              selectionMode="single" selection="#{bookingController.selected}"
-                             lazy="true"
+                             paginator="true"
                              rowKey="#{item.id}"
                              rows="10"
                              >
@@ -40,24 +40,54 @@
                         </f:facet>
                         <h:outputText value="#{item.strDuration}"/>
                     </p:column>
-<!--                    <p:column>
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListBookingTitle_userComment}"/>
                         </f:facet>
-                        <p:commandButton id="checkBooking" 
-                    </p:column>-->
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListBookingTitle_checkBtn}"/>
-                        </f:facet>
                         <h:outputText value="#{item.userComment}"/>
                     </p:column>
+                    <f:facet name="total">
+                        In total there are #{bookingController.items.size()} bookings.
+                    </f:facet>
                     <f:facet name="footer">
                         <c:if test="#{loginManager.logged}">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{bookingController.prepareCreate}" update=":BookingCreateForm" oncomplete="PF('BookingCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":BookingViewForm" oncomplete="PF('BookingViewDialog').show()" disabled="#{empty bookingController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":BookingEditForm" oncomplete="PF('BookingEditDialog').show()" disabled="#{empty bookingController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{bookingController.destroy()}" update=":growl,datalist" disabled="#{empty bookingController.selected}"/>
+                            <p:commandButton id="createButton" 
+                                             icon="ui-icon-plus"   
+                                             value="#{bundle.Create}" 
+                                             actionListener="#{bookingController.prepareCreate}" 
+                                             update=":BookingCreateForm" 
+                                             oncomplete="PF('BookingCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   
+                                             icon="ui-icon-search" 
+                                             value="#{bundle.View}" 
+                                             update=":BookingViewForm" 
+                                             oncomplete="PF('BookingViewDialog').show()" 
+                                             disabled="#{empty bookingController.selected}"/>
+
+                            <p:commandButton id="editButton"   
+                                             icon="ui-icon-pencil" 
+                                             value="#{bundle.Edit}" 
+                                             update=":BookingEditForm" 
+                                             oncomplete="PF('BookingEditDialog').show()" 
+                                             disabled="#{empty bookingController.selected or not (loginManager.loggedSchool eq bookingController.selected.idSchool)}"/>
+                            <p:commandButton id="deleteButton" 
+                                             icon="ui-icon-trash" 
+                                             value="#{bundle.Delete}"
+                                             actionListener="#{bookingController.destroy()}"
+                                             update=":growl,datalist" 
+                                             disabled="#{empty bookingController.selected or not (loginManager.loggedSchool eq bookingController.selected.idSchool)}"/>
+                            <c:choose>
+                                <c:when test="#{bookingController.isChecked(item.id)}">
+                                    <c:if test="#{not (item.idSchool.id eq loginManager.loggedSchool.id)}">
+                                        <p:commandButton disabled="true" id="checkBooking" value="Uncheck" actionListener="#{bookingController.unCheckBooking()}" update="datalist"/>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="#{not (item.idSchool.id eq loginManager.loggedSchool.id)}">
+                                        <p:commandButton disabled="true" id="checkBooking" value="Check" actionListener="#{bookingController.checkBooking(loginManager.loggedSchool)}" update="datalist"/>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
                     </f:facet>
                 </p:dataTable>

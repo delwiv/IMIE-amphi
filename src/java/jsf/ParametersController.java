@@ -6,10 +6,12 @@ import jsf.util.JsfUtil.PersistAction;
 import facade.ParametersFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -18,6 +20,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.SlideEndEvent;
 
 @Named( "parametersController" )
 @SessionScoped
@@ -27,8 +30,62 @@ public class ParametersController implements Serializable {
     private facade.ParametersFacade ejbFacade;
     private List<Parameters> items = null;
     private Parameters selected;
+    private List<Integer> hours;
 
     public ParametersController() {
+    }
+
+    @PostConstruct
+    private void init() {
+        hours = new ArrayList();
+        hours.add( 0 );
+        hours.add( 1 );
+        hours.add( 2 );
+        hours.add( 3 );
+        hours.add( 4 );
+        hours.add( 5 );
+        hours.add( 6 );
+        hours.add( 7 );
+        hours.add( 8 );
+        hours.add( 9 );
+        hours.add( 10 );
+        hours.add( 11 );
+        hours.add( 12 );
+        hours.add( 13 );
+        hours.add( 14 );
+        hours.add( 15 );
+        hours.add( 16 );
+        hours.add( 17 );
+        hours.add( 18 );
+        hours.add( 19 );
+        hours.add( 20 );
+        hours.add( 21 );
+        hours.add( 22 );
+        hours.add( 23 );
+    }
+
+    public List<Integer> getHours() {
+        return hours;
+    }
+
+    public void setHours( List<Integer> hours ) {
+        this.hours = hours;
+    }
+
+    public void onMinHourSlideEnd( SlideEndEvent event ) {
+        this.selected.setBookingMinHour( event.getValue() );
+    }
+
+    public void onMaxHourSlideEnd( SlideEndEvent event ) {
+        this.selected.setBookingMaxHour( event.getValue() );
+    }
+
+    public void onMinDurationSlideEnd( SlideEndEvent event ) {
+        this.selected.setBookingMinDuration( event.getValue() );
+    }
+
+    public void onMaxDurationSlideEnd( SlideEndEvent event ) {
+        this.selected.setBookingMaxDuration( event.getValue() );
     }
 
     public Parameters getSelected() {
@@ -78,10 +135,10 @@ public class ParametersController implements Serializable {
     }
 
     public List<Parameters> getItems() {
-        if ( items == null ) {
-            items = getFacade().findAll();
-        }
-        return items;
+        List<Parameters> params = new ArrayList();
+        params.add( ejbFacade.getCurrent() );
+
+        return params;
     }
 
     private void persist( PersistAction persistAction, String successMessage ) {

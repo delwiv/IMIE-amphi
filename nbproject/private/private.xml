@@ -3,18 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/BookingController.java</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/facade/ParametersFacade.java</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/booking/Create.xhtml</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/model/Parameters.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/school/List.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/listSchoolBookings.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/model/Checking.java</file>
             <file>file:/home/louis/NetBeansProjects/EasyBooking/web/index.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/checking/Edit.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/Bundle.properties</file>
             <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/facade/BookingFacade.java</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/admin.xhtml</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/ParametersController.java</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/CheckingController.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/school/Create.xhtml</file>
             <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/model/Booking.java</file>
-            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/facade/AbstractFacade.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/html/menu.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/school/View.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/BookingController.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/facade/CheckingFacade.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/booking/Edit.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/booking/Create.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/SchoolController.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/setup/sun-resources.xml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/WEB-INF/web.xml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/checking/Create.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/CheckingController.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/jsf/util/JsfUtil.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/WEB-INF/faces-config.xml</file>
             <file>file:/home/louis/NetBeansProjects/EasyBooking/web/templ.xhtml</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/logic/LoginManager.java</file>
+            <file>file:/home/louis/NetBeansProjects/EasyBooking/web/jsf/booking/List.xhtml</file>
             <file>file:/home/louis/NetBeansProjects/EasyBooking/src/java/facade/SchoolFacade.java</file>
         </group>
     </open-files>

@@ -9,15 +9,22 @@
 
     <ui:composition template="/templ.xhtml">
         <ui:define name="body">
+            <div class ="display-group">
+                <h2>Important</h2>
+                <ul>
+                    <li>Remember that we need #{parametersController.selected.bookingBreakDuration} minutes between 2 bookings</li>
+                    <li>You can change your passord once logged : click on your school the click edit</li>
+                    <li>Please <a href="mailto:delwiv@gmail.com">tell us</a> about bugs, new features or support.</li>
+                </ul>
+            </div>
             <div class="display-group">
                 <h2>Bookings</h2>
                 <ui:include src="/jsf/booking/List.xhtml"/>
             </div>
-            <c:if test="#{loginManager.logged}">
-                <div class="display-group">
-                    <h2>Unchecked bookings</h2>
-                </div>
-            </c:if>
+            <div class="display-group">
+                <h2>Schools</h2>
+                <ui:include src="/jsf/school/List.xhtml"/>
+            </div>
         </ui:define>
     </ui:composition>
 </html>

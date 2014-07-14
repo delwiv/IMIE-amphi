@@ -36,8 +36,9 @@ import org.apache.commons.lang.time.DateUtils;
 @Table( name = "BOOKING" )
 @XmlRootElement
 @NamedQueries( {
-    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b where b.startDate > :dateNow" ),
+    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b where b.startDate > :dateNow ORDER BY b.startDate ASC" ),
     @NamedQuery( name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id" ),
+    @NamedQuery( name = "Booking.findByIdSchool", query = "SELECT b FROM Booking b WHERE b.idSchool = :idSchool" ),
     @NamedQuery( name = "Booking.findByStartDate", query = "SELECT b FROM Booking b WHERE b.startDate = :startDate" ),
     @NamedQuery( name = "Booking.findByDuration", query = "SELECT b FROM Booking b WHERE b.duration = :duration" ),
     @NamedQuery( name = "Booking.findByUserComment", query = "SELECT b FROM Booking b WHERE b.userComment = :userComment" ),

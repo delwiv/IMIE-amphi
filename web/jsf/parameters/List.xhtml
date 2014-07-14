@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <h:form id="ParametersListForm">
+            <p:panel header="#{bundleParam.ListParametersTitle}">
+                <p:dataTable id="datalist" value="#{parametersController.items}" var="item"
+                             selectionMode="single" selection="#{parametersController.selected}"
+                             rowKey="#{item.id}"
+                             rows="1">
+
+                    <p:ajax event="rowSelect"   update="editButton"/>
+                    <p:ajax event="rowUnselect" update="editButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleParam.ListParametersTitle_bookingMinHour}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bookingMinHour}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleParam.ListParametersTitle_bookingMaxHour}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bookingMaxHour}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleParam.ListParametersTitle_bookingMinDuration}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.strMinDuration}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleParam.ListParametersTitle_bookingMaxDuration}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.strMaxDuration}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleParam.ListParametersTitle_bookingEnableChecking}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bookingEnableChecking}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleParam.ListParametersTitle_bookingBreakDuration}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.bookingBreakDuration}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundleParam.Edit}" update=":ParametersEditForm" oncomplete="PF('ParametersEditDialog').show()" disabled="#{empty parametersController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:composition>
+
+</html>

@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries( {
     @NamedQuery( name = "Checking.findAll", query = "SELECT c FROM Checking c" ),
     @NamedQuery( name = "Checking.findById", query = "SELECT c FROM Checking c WHERE c.id = :id" ),
+    @NamedQuery( name = "Checking.findByBooking", query = "SELECT c FROM Checking c WHERE c.idBooking = :idBooking" ),
     @NamedQuery( name = "Checking.findByUserComment", query = "SELECT c FROM Checking c WHERE c.userComment = :userComment" ) } )
 public class Checking implements Serializable {
 
@@ -54,6 +55,11 @@ public class Checking implements Serializable {
 
     public Checking( Integer id ) {
         this.id = id;
+    }
+
+    public Checking( Booking idBooking, School idSchool ) {
+        this.idBooking = idBooking;
+        this.idSchool = idSchool;
     }
 
     public Integer getId() {

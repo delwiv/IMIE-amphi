@@ -16,15 +16,14 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import jsf.util.JsfUtil;
 import jsf.util.JsfUtil.PersistAction;
 import model.Booking;
+import model.Checking;
 import model.Parameters;
 import model.School;
 import org.apache.commons.lang.time.DateUtils;
-import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.SlideEndEvent;
 
@@ -33,9 +32,12 @@ import org.primefaces.event.SlideEndEvent;
 public class BookingController implements Serializable {
 
     @EJB
-    private facade.BookingFacade ejbFacade;
+    private facade.BookingFacade bookingFacade;
     @EJB
     private facade.ParametersFacade parametersFacade;
+    @EJB
+    private facade.CheckingFacade checkingFacade;
+
     private Parameters parameters;
     private List<Booking> items = null;
     private List<Booking> uncheckedItems = null;
@@ -73,9 +75,25 @@ public class BookingController implements Serializable {
         return true;
     }
 
+    public boolean isChecked( int idBooking ) {
+        if ( null != checkingFacade.getByBookingId( idBooking ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    public void unCheckBooking() {
+
+    }
+
+    public void checkBooking( School school ) {
+        Checking checking = new Checking( selected, school );
+        checkingFacade.create( checking );
+    }
+
     private void displayExistingBookings( Date selectedDate ) {
         SimpleDateFormat sdf = new SimpleDateFormat( "dd MMM" );
-        List<Booking> sameDayBookings = ejbFacade.findByDay( selectedDate );
+        List<Booking> sameDayBookings = bookingFacade.findByDay( selectedDate );
         String message = "<h4>Existing bookings for " + sdf.format( selectedDate ) + "</h4><br />";
         for ( Booking b : sameDayBookings ) {
             message += b.getStrHours() + "<br />";
@@ -106,7 +124,7 @@ public class BookingController implements Serializable {
         }
         // We check if chosen dates are OK with time restriction and other bookings
         String message = "";
-        for ( Booking b : ejbFacade.findByDay( selected.getStartDate() ) ) {
+        for ( Booking b : bookingFacade.findByDay( selected.getStartDate() ) ) {
             if ( !isMatchingPlanning( b ) ) {
                 message += "Conflict with " + b.getStrHours();
             }
@@ -120,11 +138,11 @@ public class BookingController implements Serializable {
     }
 
     public BookingFacade getEjbFacade() {
-        return ejbFacade;
+        return bookingFacade;
     }
 
-    public void setEjbFacade( BookingFacade ejbFacade ) {
-        this.ejbFacade = ejbFacade;
+    public void setEjbFacade( BookingFacade bookingFacade ) {
+        this.bookingFacade = bookingFacade;
     }
 
     public ParametersFacade getParametersFacade() {
@@ -143,7 +161,7 @@ public class BookingController implements Serializable {
         this.previousSelectedDate = previousSelectedDate;
     }
 
-    public void handleSchoolSelect( javax.faces.event.AjaxBehaviorEvent event) {
+    public void handleSchoolSelect( javax.faces.event.AjaxBehaviorEvent event ) {
 //        School school = ( School ) event.
         System.out.println( "SCHOOL : " + this.selected.getIdSchool().toString() );
 //        selected.setIdSchool( school );
@@ -175,7 +193,7 @@ public class BookingController implements Serializable {
     }
 
     private BookingFacade getFacade() {
-        return ejbFacade;
+        return bookingFacade;
     }
 
     public Booking prepareCreate() {
@@ -210,7 +228,7 @@ public class BookingController implements Serializable {
         }
         return items;
     }
-
+    
     public List<Booking> getUncheckedItems() {
         if ( uncheckedItems == null ) {
             uncheckedItems = getFacade().getUncheckedBookings();
@@ -256,6 +274,7 @@ public class BookingController implements Serializable {
 
     public List<Booking> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+
     }
 
     @FacesConverter( forClass = Booking.class )

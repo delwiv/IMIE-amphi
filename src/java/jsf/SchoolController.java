@@ -39,6 +39,11 @@ public class SchoolController implements Serializable {
     public void setSelected( School selected ) {
         this.selected = selected;
     }
+    
+    public String goListBooking(){
+        return "listSchoolBookings";
+    }
+            
 
     protected void setEmbeddableKeys() {
     }

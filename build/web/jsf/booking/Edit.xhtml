@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition>
 
@@ -12,20 +13,57 @@
             <h:form id="BookingEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{bookingController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditBookingLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{bookingController.selected.id}" title="#{bundle.EditBookingTitle_id}" disabled="true" />
-                        <p:outputLabel value="#{bundle.EditBookingLabel_startDate}" for="startDate" />
-                        <p:calendar id="startDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{bookingController.selected.startDate}" title="#{bundle.EditBookingTitle_startDate}"  showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditBookingLabel_duration}" for="duration" />
-                        <p:inputText id="duration" value="#{bookingController.selected.duration}" title="#{bundle.EditBookingTitle_duration}" />
-                        <p:outputLabel value="#{bundle.EditBookingLabel_userComment}" for="userComment" />
-                        <p:inputText id="userComment" value="#{bookingController.selected.userComment}" title="#{bundle.EditBookingTitle_userComment}" />
-                        <p:outputLabel value="#{bundle.EditBookingLabel_idSchool}" for="idSchool" />
-                        <p:selectOneMenu id="idSchool" value="#{bookingController.selected.idSchool}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{schoolController.itemsAvailableSelectOne}"
-                                           var="idSchoolItem"
-                                           itemValue="#{idSchoolItem}"/>
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_startDate}" for="startDate" />
+                        <h:panelGroup>
+                            <p:calendar id="startDate" 
+                                        mode="popup"  
+                                        showOn="button"  
+                                        pattern="dd-MM-yyyy HH:mm" 
+                                        minHour="#{parametersController.selected.bookingMinHour}" 
+                                        maxHour="#{parametersController.selected.bookingMaxHour}" value="#{bookingController.selected.startDate}" 
+                                        title="#{bundle.EditBookingTitle_startDate}" 
+                                        required="true">
+                                <p:ajax event="dateSelect" listener="#{bookingController.handleDateSelect}" update=":growl"/>
+                            </p:calendar>
+                        </h:panelGroup>
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_duration}" for="sliderDuration" />
+                        <h:panelGroup>
+                            <h:inputHidden required="true" requiredMessage="Please choose a duration on the slider" id="number" value="#{bookingController.selected.duration}" />
+                            <h:outputText value="Duration : " />
+                            <h:outputText id="output" value="#{bookingController.selected.strDuration}" />
+                            <p:slider id="sliderDuration" 
+                                      for="number" 
+                                      display="output" 
+                                      maxValue="#{parametersController.selected.bookingMaxDuration}" >
+                                <p:ajax event="slideEnd" listener="#{bookingController.onCreateSlideEnd}" update="output" />
+                            </p:slider>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_userComment}" for="userComment" />
+                        <p:inputText id="userComment" value="#{bookingController.selected.userComment}" title="#{bundle.CreateBookingTitle_userComment}" />
+                        <p:outputLabel value="#{bundle.CreateBookingLabel_idSchool}" for="idSchool" />
+                        <p:selectOneMenu id="idSchool" value="#{bookingController.selected.idSchool}" required="true" disabled="true" >
+                            <f:selectItem itemLabel="Select school" itemValue=""/>
+                            <p:ajax listener="#{bookingController.handleSchoolSelect}" 
+                                    event="valueChange"
+                                    process="@this"
+                                    update="idSchool"/>
+                            <c:choose>
+                                <c:when test="#{loginManager.admin}">
+                                    <f:selectItems value="#{schoolController.itemsAvailableSelectOne}"
+                                                   var="idSchoolItem"
+                                                   itemValue="#{idSchoolItem}"
+                                                   itemLabel="#{idSchoolItem.name}"/>
+
+                                </c:when>
+                                <c:otherwise>
+                                    <f:selectItems value="#{loginManager.listLoggedSchool}"
+                                                   var="idSchoolItem"
+                                                   itemValue="#{idSchoolItem}"
+                                                   itemLabel="#{idSchoolItem.name}"/>
+                                </c:otherwise>
+                            </c:choose>      
+
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{bookingController.update}" value="#{bundle.Save}" update="display,:BookingListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BookingEditDialog');"/>

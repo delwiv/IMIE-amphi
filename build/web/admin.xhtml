@@ -17,28 +17,31 @@
                     </h:form>
                 </c:when>
                 <c:otherwise>
+                    <div class="display-group">
                     <h1>Admin Area</h1>
                     <h3>Be carefull of what you do here</h3>
                     <br />
                     <br />
+</div>
 
-
-                    <div class="entity-manager">
+                    <div class="display-group">
                         <h2>Schools</h2>
                         <ui:include src="/jsf/school/List.xhtml"/>
                     </div>
                     <br />
                     <br />
 
-                    <div class="entity-manager">
+                    <div class="display-group">
                         <h2>Bookings</h2>
                         <ui:include src="/jsf/booking/List.xhtml"/>
                     </div>
                     <br />
                     <br />
 
-                    <div class="entity-manager">
-                        <h2>Checkings</h2>
+                    <div class="display-group">
+                        <h2>Parameters</h2>
+                        <h3>Please be <i>very</i> careful of what you do here</h3>
+                        <ui:include src="/jsf/parameters/List.xhtml" />
                     </div>
                 </c:otherwise>
             </c:choose>

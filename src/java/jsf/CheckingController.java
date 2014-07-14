@@ -48,7 +48,7 @@ public class CheckingController implements Serializable {
     private CheckingFacade getFacade() {
         return ejbFacade;
     }
-
+    
     public Checking prepareCreate() {
         selected = new Checking();
         initializeEmbeddableKey();

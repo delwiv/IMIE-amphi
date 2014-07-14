@@ -10,25 +10,25 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="index.xhtml">EasyBooking!</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#agenda">Agenda</a></li>
-                    <li><a href="#book">Book</a></li>
+                    <c:if test="#{loginManager.admin}">
+                        <li><a href="admin.xhtml">Admin</a></li>
+                    </c:if>
+                    <!--                    <li><a href="#agenda">Agenda</a></li>
+                                        <li><a href="#book">Book</a></li>-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <h:form styleClass="navbar-form" >
+
                         <c:choose>
                             <c:when test="#{loginManager.logged}">
-                                <c:if test="#{loginManager.admin}">
-                                    <li class="admin-link"><a href="./admin.xhtml">Admin</a></li>
-                                </c:if>
-                                <p:commandButton ajax="false" action="#{loginManager.logout}" value="Logout"/>
+                                <h:outputText value="Logged as #{loginManager.loggedSchool.name}"/>
+                                <li><p:commandButton ajax="false" action="#{loginManager.logout}" value="Logout"/></li>
+
                             </c:when>
                             <c:otherwise>
                                 <li>
