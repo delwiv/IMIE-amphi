@@ -1,10 +1,7 @@
 package jsf;
 
-import model.Booking;
-import jsf.util.JsfUtil;
-import jsf.util.JsfUtil.PersistAction;
 import facade.BookingFacade;
-
+import facade.ParametersFacade;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,18 +11,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import jsf.util.JsfUtil;
 import jsf.util.JsfUtil.PersistAction;
 import model.Booking;
 import model.Parameters;
+import model.School;
 import org.apache.commons.lang.time.DateUtils;
+import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.SlideEndEvent;
 
@@ -41,6 +40,7 @@ public class BookingController implements Serializable {
     private List<Booking> items = null;
     private List<Booking> uncheckedItems = null;
     private Booking selected;
+    private Date previousSelectedDate = null;
 
     public BookingController() {
     }
@@ -52,8 +52,11 @@ public class BookingController implements Serializable {
 
         // same for the one we try to create
         Date startDate = selected.getStartDate();
-        Date endDate = DateUtils.addMinutes( selected.getStartDate(), selected.getDuration() );
+        Date endDate = startDate;
 
+        if ( selected.getDuration() != null ) {
+            endDate = DateUtils.addMinutes( selected.getStartDate(), selected.getDuration() );
+        }
         // If startDate is during another booking
         if ( startDate.after( bookedStartDate ) && startDate.before( DateUtils.addMinutes( bookedEndDate, getParameters().getBookingBreakDuration() ) ) ) {
             return false;
@@ -63,8 +66,87 @@ public class BookingController implements Serializable {
         if ( startDate.before( bookedStartDate ) && endDate.after( bookedStartDate ) ) {
             return false;
         }
+        if ( startDate.equals( bookedStartDate ) ) {
+            return false;
+        }
         // else everything's good concerning other bookings ;)
         return true;
+    }
+
+    private void displayExistingBookings( Date selectedDate ) {
+        SimpleDateFormat sdf = new SimpleDateFormat( "dd MMM" );
+        List<Booking> sameDayBookings = ejbFacade.findByDay( selectedDate );
+        String message = "<h4>Existing bookings for " + sdf.format( selectedDate ) + "</h4><br />";
+        for ( Booking b : sameDayBookings ) {
+            message += b.getStrHours() + "<br />";
+        }
+        if ( sameDayBookings.isEmpty() ) {
+            message = "<h4>No booking planned on " + sdf.format( selectedDate ) + "</h4>";
+        }
+        JsfUtil.addSuccessMessage( message );
+    }
+
+    public void onCreateSlideEnd( SlideEndEvent event ) {
+        this.selected.setDuration( event.getValue() );
+
+    }
+
+    public void handleDateSelect( SelectEvent event ) {
+
+        Date selectedDate = ( Date ) event.getObject();
+
+        if ( !( null == this.previousSelectedDate ) ) {
+            if ( !DateUtils.isSameDay( selectedDate, this.previousSelectedDate ) ) {
+                previousSelectedDate = selectedDate;
+                displayExistingBookings( selectedDate );
+            }
+        } else {
+            this.previousSelectedDate = selectedDate;
+            displayExistingBookings( selectedDate );
+        }
+        // We check if chosen dates are OK with time restriction and other bookings
+        String message = "";
+        for ( Booking b : ejbFacade.findByDay( selected.getStartDate() ) ) {
+            if ( !isMatchingPlanning( b ) ) {
+                message += "Conflict with " + b.getStrHours();
+            }
+        }
+        if ( !message.isEmpty() ) {
+            JsfUtil.addErrorMessage( "The booking you're trying to add doesn't respect planning (did you think about the break?) <br />" + message );
+        } else {
+            JsfUtil.addSuccessMessage( "Available booking ;)" );
+        }
+
+    }
+
+    public BookingFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade( BookingFacade ejbFacade ) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public ParametersFacade getParametersFacade() {
+        return parametersFacade;
+    }
+
+    public void setParametersFacade( ParametersFacade parametersFacade ) {
+        this.parametersFacade = parametersFacade;
+    }
+
+    public Date getPreviousSelectedDate() {
+        return previousSelectedDate;
+    }
+
+    public void setPreviousSelectedDate( Date previousSelectedDate ) {
+        this.previousSelectedDate = previousSelectedDate;
+    }
+
+    public void handleSchoolSelect( javax.faces.event.AjaxBehaviorEvent event) {
+//        School school = ( School ) event.
+        System.out.println( "SCHOOL : " + this.selected.getIdSchool().toString() );
+//        selected.setIdSchool( school );
     }
 
     public Booking getSelected() {
@@ -77,7 +159,7 @@ public class BookingController implements Serializable {
 
     public Parameters getParameters() {
         if ( null == parameters ) {
-//            parameters = parametersFacade.getCurrent();
+            parameters = parametersFacade.getCurrent();
         }
         return parameters;
     }
@@ -103,9 +185,7 @@ public class BookingController implements Serializable {
     }
 
     public void create() {
-        // Before creation we check if chosen dates are OK with time restriction and other bookings
-        boolean createBooking = checkCreation();
-
+        System.out.println( "Booking to be created : " + selected.toString() );
         persist( PersistAction.CREATE, ResourceBundle.getBundle( "/Bundle" ).getString( "BookingCreated" ) );
         if ( !JsfUtil.isValidationFailed() ) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -178,21 +258,6 @@ public class BookingController implements Serializable {
         return getFacade().findAll();
     }
 
-    private boolean checkCreation() {
-        String message = "";
-        boolean check = true;
-        for ( Booking b : ejbFacade.findByDay( selected.getStartDate() ) ) {
-            if ( !isMatchingPlanning( selected ) ) {
-                message +="Conflict with " + selected.getStrHours();
-                check = false;
-            }
-        }
-        if (!message.isEmpty()){
-            JsfUtil.addErrorMessage( "The booking you're trying to add doesn't respect planning (did you think about the break?) <br />" + message );
-        }
-        return check;
-    }
-
     @FacesConverter( forClass = Booking.class )
     public static class BookingControllerConverter implements Converter {
 
@@ -233,29 +298,4 @@ public class BookingController implements Serializable {
         }
 
     }
-
-    public void onCreateSlideEnd( SlideEndEvent event ) {
-        this.selected.setDuration( event.getValue() );
-//add faces message
-    }
-
-    public void handleDateSelect( SelectEvent event ) {
-        SimpleDateFormat sdf = new SimpleDateFormat( "dd MMM" );
-        Date selectedDate = ( Date ) event.getObject();
-        List<Booking> sameDayBookings = ejbFacade.findByDay( selectedDate );
-        String message = "<h4>Existing bookings for " + sdf.format( selectedDate ) + "</h4><br />";
-        for ( Booking b : sameDayBookings ) {
-            message += b.getStrHours() + "<br />";
-        }
-        if ( sameDayBookings.isEmpty() ) {
-            message = "<h4>No booking planned on " + sdf.format( selectedDate ) + "</h4>";
-        }
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        context.addMessage( "dateCheck", new FacesMessage( FacesMessage.SEVERITY_INFO, message, message ) );
-////        FacesMessage facesMsg = new FacesMessage( FacesMessage.SEVERITY_INFO, message, message ); 
-////       FacesContext.getCurrentInstance().addMessage( "successInfo", facesMsg );
-        JsfUtil.addSuccessMessage( message );
-
-    }
-
 }

@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import model.Checking;
 import model.School;
 
-@Generated(value="EclipseLink-2.5.1.v20130918-rNA", date="2014-07-14T02:06:48")
+@Generated(value="EclipseLink-2.5.1.v20130918-rNA", date="2014-07-14T17:33:17")
 @StaticMetamodel(Booking.class)
 public class Booking_ { 
 

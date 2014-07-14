@@ -27,8 +27,8 @@
                             <c:when test="#{loginManager.logged}">
                                 <c:if test="#{loginManager.admin}">
                                     <li class="admin-link"><a href="./admin.xhtml">Admin</a></li>
-                                    <p:commandButton ajax="false" action="#{loginManager.logout}" value="Logout"/>
                                 </c:if>
+                                <p:commandButton ajax="false" action="#{loginManager.logout}" value="Logout"/>
                             </c:when>
                             <c:otherwise>
                                 <li>

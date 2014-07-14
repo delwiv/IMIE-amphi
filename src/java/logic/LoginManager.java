@@ -6,19 +6,23 @@
 package logic;
 
 import facade.SchoolFacade;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
 import model.School;
 
 /**
  *
  * @author louis
  */
+@Named( "loginManager" )
 @ManagedBean
 @SessionScoped
-public class LoginManager {
-    
+public class LoginManager implements Serializable {
 
     @EJB
     private SchoolFacade ejbFacade;
@@ -28,6 +32,7 @@ public class LoginManager {
     private School loggedSchool;
     private boolean logged;
     private boolean admin;
+    List<School> listLoggedSchool;
 
     public String login() {
         School school = null;
@@ -52,6 +57,12 @@ public class LoginManager {
             }
         }
         return "loop";
+    }
+
+    public List<School> getListLoggedSchool() {
+        List<School> school = new ArrayList();
+        school.add( loggedSchool );
+        return school;
     }
 
     public String logout() {
@@ -86,6 +97,10 @@ public class LoginManager {
 
     public void setInputPasswd( String inputPasswd ) {
         this.inputPasswd = inputPasswd;
+    }
+
+    public void setListLoggedSchool( List<School> listLoggedSchool ) {
+        this.listLoggedSchool = listLoggedSchool;
     }
 
     public School getLoggedSchool() {

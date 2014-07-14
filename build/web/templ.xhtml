@@ -24,27 +24,15 @@ and open the template in the editor.
 
     <body>
         <f:view>
-            <ui:include src="html/menu.xhtml"/>
+            <ui:include src="/html/menu.xhtml"/>
             <div class="div-growl">
-                <p:growl id="growl" sticky="true" escape="false"/>
+                <p:growl id="growl" life="30000" escape="false"/>
             </div>
-
+            <p:messages autoUpdate="true"/>
             <div id="container">
-                <div class="display-group">
-                    <h2>Agenda</h2>
-                    <!--<ui:insert name="agenda"/>-->
-                </div>
-                <div class="display-group">
-                    <h2>Unchecked bookings</h2>
-                    <ui:insert name="uncheckedBookings"/>
-                </div>
-                <div class="display-group">
-                    <h2>Bookings</h2>
-                    <ui:insert name="bookings"/>
-                </div>
 
+            <ui:insert name="body"/>
             </div>
-
         </f:view>
     </body>
 

@@ -21,7 +21,7 @@
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateCheckingLabel_idSchool}" for="idSchool" />
                         <p:selectOneMenu id="idSchool" value="#{checkingController.selected.idSchool}" >
-                            <f:selectItems value="#{schoolController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{schoolController.itemsAvailableSelectOne}" noSelectionValue="#{idSchoolItem}"
                                            var="idSchoolItem"
                                            itemValue="#{idSchoolItem}"
                                            itemLabel="#{idSchoolItem.name}"/>

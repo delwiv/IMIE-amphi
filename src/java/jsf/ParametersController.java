@@ -33,7 +33,7 @@ public class ParametersController implements Serializable {
 
     public Parameters getSelected() {
         if ( null == selected ) {
-//            selected = ejbFacade.getCurrent();
+            selected = ejbFacade.getCurrent();
         }
         return selected;
     }

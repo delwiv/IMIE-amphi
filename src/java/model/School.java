@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
@@ -29,12 +28,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table( name = "SCHOOL" )
 @XmlRootElement
-@NamedQueries( { 
+@NamedQueries( {
     @NamedQuery( name = "School.findAll", query = "SELECT s FROM School s" ),
     @NamedQuery( name = "School.findById", query = "SELECT s FROM School s WHERE s.id = :id" ),
-    @NamedQuery( name = "School.findByName", query = "SELECT s FROM School s WHERE s.name = :name" ),
-    /*@NamedQuery( name = "School.findByPassword", query = "SELECT s FROM School s WHERE s.password = :password" )*/ } )
+    @NamedQuery( name = "School.findByName", query = "SELECT s FROM School s WHERE s.name = :name" ), /*@NamedQuery( name = "School.findByPassword", query = "SELECT s FROM School s WHERE s.password = :password" )*/ } )
 public class School implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -65,6 +64,10 @@ public class School implements Serializable {
 
     public void setId( Integer id ) {
         this.id = id;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getName() {
@@ -123,7 +126,7 @@ public class School implements Serializable {
 
     @Override
     public String toString() {
-        return "model.School[ id=" + id + " ]";
+        return "School{" + "id=" + id + ", name=" + name + ", password=" + password + ", checkingList=" + checkingList + ", bookingList=" + bookingList + '}';
     }
-    
+
 }

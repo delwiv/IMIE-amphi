@@ -9,18 +9,6 @@
             <var>bundle</var>
         </resource-bundle>
         <resource-bundle>
-            <base-name>/Bundletest</base-name>
-            <var>bundletest</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/BundleParams</base-name>
-            <var>bundleParams</var>
-        </resource-bundle>
-        <resource-bundle>
             <base-name>/BundleParam</base-name>
             <var>bundleParam</var>
         </resource-bundle>

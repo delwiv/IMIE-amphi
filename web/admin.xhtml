@@ -7,20 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <h:head>
-        <link href="resources/css/jsfcrud.css" rel="stylesheet"/>
-        <script src="resources/js/jsfcrud.js"></script>
-        <link href="css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="css/styles.css" rel="stylesheet"/>
-        <script src="js/bootstrap.min.js"></script>
-        <!--<script src="js/jquery-2.1.1.js"></script>-->
-        <title>EasyBooking!</title>
-    </h:head>
-
-    <h:body>
-        <ui:include src="html/menu.xhtml"/>
-        <div id="container">
-            <p:growl id="growl" life="3000" />
+    <ui:composition template="/templ.xhtml">
+        <ui:define name="body">
             <c:choose>
                 <c:when test="#{not loginManager.admin}">
                     <h:form>
@@ -34,15 +22,17 @@
                     <br />
                     <br />
 
-                    <h2>Schools</h2>
+
                     <div class="entity-manager">
+                        <h2>Schools</h2>
+                        <ui:include src="/jsf/school/List.xhtml"/>
                     </div>
                     <br />
                     <br />
 
                     <div class="entity-manager">
                         <h2>Bookings</h2>
-                        <ui:include src="jsf/booking/List.xhtml"/>
+                        <ui:include src="/jsf/booking/List.xhtml"/>
                     </div>
                     <br />
                     <br />
@@ -52,6 +42,6 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-        </div>
-    </h:body>
+        </ui:define>    
+    </ui:composition>
 </html>

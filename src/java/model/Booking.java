@@ -36,13 +36,12 @@ import org.apache.commons.lang.time.DateUtils;
 @Table( name = "BOOKING" )
 @XmlRootElement
 @NamedQueries( {
-    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b WHERE b.startDate > :dateNow" ),
+    @NamedQuery( name = "Booking.findAll", query = "SELECT b FROM Booking b where b.startDate > :dateNow" ),
     @NamedQuery( name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id" ),
     @NamedQuery( name = "Booking.findByStartDate", query = "SELECT b FROM Booking b WHERE b.startDate = :startDate" ),
     @NamedQuery( name = "Booking.findByDuration", query = "SELECT b FROM Booking b WHERE b.duration = :duration" ),
     @NamedQuery( name = "Booking.findByUserComment", query = "SELECT b FROM Booking b WHERE b.userComment = :userComment" ),
     @NamedQuery( name = "Booking.findNotChecked", query = "SELECT b FROM Booking b JOIN Checking c ON b.id <> c.id_booking" )
-//    @NamedQuery( name = "Booking.findNotChecked", query = "SELECT b FROM Booking b JOIN Checking c ON b.id <> c.id_booking" ),
 } )
 public class Booking implements Serializable {
 
@@ -93,10 +92,6 @@ public class Booking implements Serializable {
         return duration;
     }
 
-    public void setDuration( Integer duration ) {
-        this.duration = duration;
-    }
-
     public String getUserComment() {
         return userComment;
     }
@@ -144,7 +139,7 @@ public class Booking implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Booking[ id=" + id + " ]";
+        return "Booking{" + "id=" + id + ", startDate=" + startDate + ", duration=" + duration + ", userComment=" + userComment + ", checkingList=" + checkingList + ", idSchool=" + idSchool + '}';
     }
 
     public String getStrStartDate() {
@@ -153,8 +148,16 @@ public class Booking implements Serializable {
             return sdf.format( startDate );
         } catch ( NullPointerException ex ) {
             return sdf.format( new Date() );
-        }
 
+        }
+    }
+
+    public void setDuration( Integer duration ) {
+        this.duration = duration;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getStrDuration() {
@@ -185,7 +188,13 @@ public class Booking implements Serializable {
     public String getStrHours() {
         DateUtils utils = new DateUtils();
         SimpleDateFormat sdf = new SimpleDateFormat( "HH:mm" );
-        String response = this.idSchool.getName()
+        String name = "Unknown";
+        try {
+            name = this.idSchool.getName();
+        } catch(Exception ex){
+            
+        }
+        String response = name
                 + " : " + sdf.format( startDate )
                 + " -> " + sdf.format( utils.addMinutes( startDate, duration ) );
         return response;

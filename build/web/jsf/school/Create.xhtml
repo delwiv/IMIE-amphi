@@ -17,7 +17,10 @@
                         <p:outputLabel value="#{bundle.CreateSchoolLabel_password}" for="password" />
                         <p:inputText id="password" value="#{schoolController.selected.password}" title="#{bundle.CreateSchoolTitle_password}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{schoolController.create}" value="#{bundle.Save}" update="display,:SchoolListForm:datalist,:growl" oncomplete="handleSubmit(args,'SchoolCreateDialog');"/>
+                    <p:commandButton actionListener="#{schoolController.create}" 
+                                     value="#{bundle.Save}" 
+                                     update="display,:SchoolListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(args,'SchoolCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SchoolCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

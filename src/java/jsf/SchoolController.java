@@ -43,6 +43,14 @@ public class SchoolController implements Serializable {
     protected void setEmbeddableKeys() {
     }
 
+    public School getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin( School admin ) {
+        this.admin = admin;
+    }
+
     protected void initializeEmbeddableKey() {
     }
 
